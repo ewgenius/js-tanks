@@ -23,11 +23,25 @@ var Arena = function (container) {
     for (var i = 0; i < tanks.length; i++)
         stage.addChild(tanks[i].sprite);
 
-
     function animate() {
         requestAnimFrame(animate);
         renderer.render(stage);
     }
+
+    this.logic = 0;
+}
+
+Arena.prototype.step = function () {
+    for (var i = 0; i < this.tanks.length; i++)
+        this.tanks[i].step();
+}
+
+Arena.prototype.start = function () {
+    var self = this;
+    clearInterval(this.logic);
+    this.logic = setInterval(function () {
+        self.step();
+    }, 1000);
 }
 
 var Grid = function (width, height, d) {
@@ -43,6 +57,16 @@ var Grid = function (width, height, d) {
         this.graphics.lineTo(width * d, y * d);
     }
 }
+
+
+var Missile = function() {
+    this.texture = new PIXI.Texture.fromImage('img/missile.png');
+    this.sprite = new PIXI.Sprite(this.texture);
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.direction = 0;
+}
+
 
 var Tank = function () {
     this.texture = new PIXI.Texture.fromImage('img/tank.png');
@@ -71,4 +95,12 @@ Tank.prototype.rotateLeft = function () {
 Tank.prototype.rotateRight = function () {
     this.sprite.rotation += Math.PI / 2;
     this.direction = (this.direction - 1) % 4;
+}
+
+Tank.prototype.shoot = function() {
+
+}
+
+Tank.prototype.step = function () {
+
 }
