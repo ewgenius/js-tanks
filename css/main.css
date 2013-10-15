@@ -97,7 +97,22 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.slide {
+    display: none;
+    width: 90%;
+    height: 90%;
+    padding: 5%;
+}
 
+.slide .arena {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #000000;
+}
+
+.current {
+    display: block;
+}
 
 
 
