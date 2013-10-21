@@ -28,29 +28,77 @@
 
 
 <div id="presentation">
-    <div class="slide current" id="slide1">
+    <div class="slide current" id="slide0">
+        <script>
+            function initialize_0() {
+                arena = new Arena($('#slide0 .arena'));
+                $('.description').find('.button').click(function () {
+                    // arena.tanks[0].step =
+                    console.info(eval($(this).parent().find('.code').val()));
+                });
+                arena.start();
+            }
+        </script>
         <div class="title">Тестовая арена</div>
         <div class="arena"></div>
         <div class="description">
             <p>Описание:</p>
             <textarea class="code">function() {
-}
+                }
 
             </textarea>
 
             <a class="button" href="#">старт</a>
         </div>
     </div>
-    <div class="slide" id="slide2">2</div>
-    <div class="slide" id="slide3">3</div>
-    <div class="slide" id="slide4">4</div>
-    <div class="slide" id="slide5">5</div>
-    <div class="slide" id="slide6">6</div>
-    <div class="slide" id="slide7">7</div>
-    <div class="slide" id="slide8">8</div>
-    <div class="slide" id="slide9">9</div>
-    <div class="slide" id="slide10">10</div>
-    <div class="slide" id="slide11">11</div>
+    <div class="slide" id="slide1">
+        <script>
+            function initialize_1() {
+                alert('slide 1 ok');
+            }
+        </script>
+        1
+    </div>
+    <div class="slide" id="slide2">
+        <script>
+            function initialize_2() {
+                alert('slide 2 ok');
+            }
+        </script>
+        2
+    </div>
+    <div class="slide" id="slide3">
+        <script>
+            function initialize_3() {
+                alert('slide 3 ok');
+            }
+        </script>
+        3
+    </div>
+    <div class="slide" id="slide4">
+        <script>
+            function initialize_4() {
+                alert('slide 4 ok');
+            }
+        </script>
+        4
+    </div>
+    <div class="slide" id="slide5">
+        <script>
+            function initialize_5() {
+                alert('slide 5 ok');
+            }
+        </script>
+        5
+    </div>
+    <div class="slide" id="slide6">
+        <script>
+            function initialize_6() {
+                alert('slide 6 ok');
+            }
+        </script>
+        6
+    </div>
 </div>
 
 

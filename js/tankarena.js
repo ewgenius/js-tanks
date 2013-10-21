@@ -74,6 +74,7 @@ var Tank = function () {
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
     this.direction = 0;
+    this.tank = this;
 }
 
 Tank.prototype.moveForward = function () {
