@@ -8,16 +8,23 @@ var Presentation = function (container) {
         if (window['initialize_' + i])
             this.slides[i].initialize = window['initialize_' + i];
         else
-            this.slides[i].initialize = function () { }
+            this.slides[i].initialize = function () {}
+
+        if (window['exit_' + i])
+            this.slides[i].exit = window['exit_' + i];
+        else
+            this.slides[i].exit = function () {}
     }
 
     this.currentSlide().initialize();
 }
 
-Presentation.prototype.gotTo = function(index) {
+Presentation.prototype.gotTo = function (index) {
+    this.currentSlide().exit();
     this.currentIndex = index;
     this.slides.removeClass('current');
     $(this.slides[index]).addClass('current');
+    this.currentSlide().initialize();
 }
 
 Presentation.prototype.currentSlide = function () {
@@ -25,13 +32,9 @@ Presentation.prototype.currentSlide = function () {
 }
 
 Presentation.prototype.next = function () {
-    this.currentIndex = (this.currentIndex + 1) % this.slidesCount;
-    this.slides.removeClass('current');
-    $(this.slides[this.currentIndex]).addClass('current');
+    this.gotTo((this.currentIndex + 1) % this.slidesCount);
 }
 
 Presentation.prototype.prev = function () {
-    this.currentIndex = (this.currentIndex - 1) % this.slidesCount;
-    this.slides.removeClass('current');
-    $(this.slides[this.currentIndex]).addClass('current');
+    this.gotTo((this.currentIndex - 1) % this.slidesCount);
 }

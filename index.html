@@ -30,21 +30,29 @@
 <div id="presentation">
     <div class="slide current" id="slide0">
         <script>
+            var arena;
             function initialize_0() {
                 arena = new Arena($('#slide0 .arena'));
                 $('.description').find('.button').click(function () {
-                    // arena.tanks[0].step =
-                    console.info(eval($(this).parent().find('.code').val()));
+                    var code = $(this).parent().find('.code').val();
+                    if (code != "")
+                        arena.tanks[0].step = new Function(code);
                 });
                 arena.start();
+            }
+
+            function exit_0() {
+                arena.exit();
             }
         </script>
         <div class="title">Тестовая арена</div>
         <div class="arena"></div>
         <div class="description">
             <p>Описание:</p>
-            <textarea class="code">function() {
-                }
+            <textarea class="code">
+{
+    this.moveForward();
+}
 
             </textarea>
 

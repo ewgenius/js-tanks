@@ -1,9 +1,14 @@
 var Arena = function (container) {
-
+    this.container = container;
     var stage = new PIXI.Stage(0xffffff);
     var renderer = PIXI.autoDetectRenderer(container.width(), container.height());
+
+    this.stage = stage;
+    this.renderer = renderer;
+
     container[0].appendChild(renderer.view);
-    requestAnimFrame(animate);
+
+    this.animation = requestAnimFrame(animate);
 
 
     var tanks = [];
@@ -13,11 +18,12 @@ var Arena = function (container) {
     this.grid = grid;
 
 
-    var t = new Tank();
-    t.sprite.position.x = 110;
-    t.sprite.position.y = 110;
-    tanks.push(t);
-
+    for (var i = 0; i < 10; i++) {
+        var t = new Tank();
+        t.sprite.position.x = 10 + 20 * ( Math.floor(Math.random() * (10 - 1 + 1)) + 1);
+        t.sprite.position.y = 10 + 20 * ( Math.floor(Math.random() * (10 - 1 + 1)) + 1);
+        tanks.push(t);
+    }
 
     stage.addChild(grid.graphics);
     for (var i = 0; i < tanks.length; i++)
@@ -29,6 +35,15 @@ var Arena = function (container) {
     }
 
     this.logic = 0;
+}
+
+Arena.prototype.exit = function () {
+    cancelAnimationFrame(this.animation);
+    clearInterval(this.logic);
+    this.renderer = null;
+    this.stage = null;
+    this.tanks = null;
+    $(this.container).children().remove();
 }
 
 Arena.prototype.step = function () {
@@ -59,7 +74,7 @@ var Grid = function (width, height, d) {
 }
 
 
-var Missile = function() {
+var Missile = function () {
     this.texture = new PIXI.Texture.fromImage('img/missile.png');
     this.sprite = new PIXI.Sprite(this.texture);
     this.sprite.anchor.x = 0.5;
@@ -67,41 +82,35 @@ var Missile = function() {
     this.direction = 0;
 }
 
-
 var Tank = function () {
     this.texture = new PIXI.Texture.fromImage('img/tank.png');
     this.sprite = new PIXI.Sprite(this.texture);
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
+    this.speed = 10;
     this.direction = 0;
-    this.tank = this;
+    this.actions = [];
 }
 
-Tank.prototype.moveForward = function () {
-    if (this.direction == 0)
-        this.sprite.position.y -= 20;
-    else if (this.direction == 1)
-        this.sprite.position.x -= 20;
-    else if (this.direction == 2)
-        this.sprite.position.y += 20;
-    else if (this.direction == 3)
-        this.sprite.position.x += 20;
+Tank.prototype.moveForward = function (self) {
+    self.sprite.position.x += self.speed * Math.sin(self.direction);
+    self.sprite.position.y -= self.speed * Math.cos(self.direction);
 }
 
-Tank.prototype.rotateLeft = function () {
-    this.sprite.rotation -= Math.PI / 2;
-    this.direction = (this.direction + 1) % 4;
+Tank.prototype.rotate = function (self, angle) {
+    self.direction += angle * Math.PI / 180;
+    if (self.direction >= 2 * Math.PI)
+        self.direction -= 2 * Math.PI;
+    if (self.direction < 0)
+        self.direction += 2 * Math.PI;
+    self.sprite.rotation = self.direction;
 }
 
-Tank.prototype.rotateRight = function () {
-    this.sprite.rotation += Math.PI / 2;
-    this.direction = (this.direction - 1) % 4;
-}
-
-Tank.prototype.shoot = function() {
+Tank.prototype.shoot = function () {
 
 }
 
-Tank.prototype.step = function () {
-
+Tank.prototype.step = function() {
+    //for(var i = 0; i < this.actions.length; i++)
+        //this.actions[i].method(this.actions[i].arg);
 }
