@@ -39,6 +39,24 @@ html {
     text-shadow: none;
 }
 
+.slide {
+    font-size: 24px;
+}
+
+.controls {
+    width: 100%;
+    height: 20px;
+    font-size: 12px;
+}
+
+.controls a {
+    color: #000000;
+    text-decoration: none;
+    display: block;
+    float: left;
+    margin: 5px;
+}
+
 /*
  * A better looking default horizontal rule
  */

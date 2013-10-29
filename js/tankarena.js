@@ -5,14 +5,14 @@ var Arena = function (container) {
 
     this.stage = stage;
     this.renderer = renderer;
+}
 
-    container[0].appendChild(renderer.view);
-
+Arena.prototype.initialize = function () {
+    this.container[0].appendChild(this.renderer.view);
     this.animation = requestAnimFrame(animate);
 
-
     var tanks = [];
-    var grid = new Grid(container.width() / 20, container.height() / 20, 20);
+    var grid = new Grid(this.container.width() / 20, this.container.height() / 20, 20);
 
     this.tanks = tanks;
     this.grid = grid;
@@ -20,14 +20,18 @@ var Arena = function (container) {
 
     for (var i = 0; i < 10; i++) {
         var t = new Tank();
-        t.sprite.position.x = 10 + 20 * ( Math.floor(Math.random() * (10 - 1 + 1)) + 1);
-        t.sprite.position.y = 10 + 20 * ( Math.floor(Math.random() * (10 - 1 + 1)) + 1);
+        t.sprite.position.x = 10 + 20 * ( Math.floor(Math.random() * (20 - 1 + 1)) + 1);
+        t.sprite.position.y = 10 + 20 * ( Math.floor(Math.random() * (20 - 1 + 1)) + 1);
+        t.rotate(t, Math.random() * 360);
         tanks.push(t);
     }
 
-    stage.addChild(grid.graphics);
+    //this.stage.addChild(grid.graphics);
     for (var i = 0; i < tanks.length; i++)
-        stage.addChild(tanks[i].sprite);
+        this.stage.addChild(tanks[i].sprite);
+
+    var renderer = this.renderer;
+    var stage = this.stage;
 
     function animate() {
         requestAnimFrame(animate);
@@ -110,7 +114,7 @@ Tank.prototype.shoot = function () {
 
 }
 
-Tank.prototype.step = function() {
+Tank.prototype.step = function () {
     //for(var i = 0; i < this.actions.length; i++)
-        //this.actions[i].method(this.actions[i].arg);
+    //this.actions[i].method(this.actions[i].arg);
 }

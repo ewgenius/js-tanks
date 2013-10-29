@@ -28,7 +28,15 @@
 
 
 <div id="presentation">
+    <div class="controls">
+        <a href="#" class="prev">назад</a>
+        <a href="#" class="next">вперед</a>
+    </div>
     <div class="slide current" id="slide0">
+        <h1>Основы программирования<br>на языке JavaScript</h1>
+        <p>Моедлирование искусственного интеллекта<br>на примере игры "Танки"</p>
+    </div>
+    <div class="slide" id="slide10">
         <script>
             var arena;
             function initialize_0() {
@@ -38,6 +46,7 @@
                     if (code != "")
                         arena.tanks[0].step = new Function(code);
                 });
+                arena.initialize();
                 arena.start();
             }
 
@@ -59,15 +68,14 @@
             <a class="button" href="#">старт</a>
         </div>
     </div>
-    <div class="slide" id="slide1">
+    <div class="slide" id="slide11">
         <script>
             function initialize_1() {
-                alert('slide 1 ok');
             }
         </script>
         1
     </div>
-    <div class="slide" id="slide2">
+    <div class="slide" id="slide12">
         <script>
             function initialize_2() {
                 alert('slide 2 ok');
@@ -75,7 +83,7 @@
         </script>
         2
     </div>
-    <div class="slide" id="slide3">
+    <div class="slide" id="slide13">
         <script>
             function initialize_3() {
                 alert('slide 3 ok');
@@ -83,7 +91,7 @@
         </script>
         3
     </div>
-    <div class="slide" id="slide4">
+    <div class="slide" id="slide14">
         <script>
             function initialize_4() {
                 alert('slide 4 ok');
@@ -91,21 +99,13 @@
         </script>
         4
     </div>
-    <div class="slide" id="slide5">
+    <div class="slide" id="slide15">
         <script>
             function initialize_5() {
                 alert('slide 5 ok');
             }
         </script>
         5
-    </div>
-    <div class="slide" id="slide6">
-        <script>
-            function initialize_6() {
-                alert('slide 6 ok');
-            }
-        </script>
-        6
     </div>
 </div>
 
