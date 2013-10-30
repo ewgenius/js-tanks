@@ -54,7 +54,16 @@ html {
     text-decoration: none;
     display: block;
     float: left;
-    margin: 5px;
+    padding: 5px;
+}
+
+.controls a:hover, .controls a.selected {
+    background-color: #666666;
+    color: #ffffff;
+}
+
+h1 {
+    color: #666666;
 }
 
 /*

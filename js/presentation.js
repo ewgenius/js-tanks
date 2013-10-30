@@ -18,7 +18,7 @@ var Presentation = function (container) {
         else
             this.slides[i].exit = function () {
             }
-        var a = $('<a href="#">' + i + '</a>');
+        var a = $('<a href="#" class="link">' + i + '</a>');
         this.controls.children('a.next').before(a);
         a[0].ind = i;
         a.click(function () {
@@ -27,33 +27,34 @@ var Presentation = function (container) {
     }
 
     this.gotTo(this.currentIndex);
-
-    this.controls.children('a.next').click(function () {
-        self.next();
-    });
-    this.controls.children('a.prev').click(function () {
-        self.prev();
-    });
 }
 
 Presentation.prototype.gotTo = function (index) {
+    if (index < 0 || index >= this.slidesCount)
+        return;
+    var self = this;
     if (index != this.currentIndex) {
         this.currentSlide().exit();
         this.currentIndex = index;
         this.slides.removeClass('current');
         $(this.slides[index]).addClass('current');
+        this.currentSlide().initialize();
     }
-    this.currentSlide().initialize();
 
-    if (this.currentIndex == 0)
-        this.controls.children('a.prev').hide();
-    else
-        this.controls.children('a.prev').show();
+    this.controls.children('a.prev').unbind('click');
+    if (this.currentIndex != 0)
+        this.controls.children('a.prev').click(function () {
+            self.prev();
+        });
 
-    if (this.currentIndex == this.slidesCount - 1)
-        this.controls.children('a.next').hide();
-    else
-        this.controls.children('a.next').show();
+    this.controls.children('a.next').unbind('click');
+    if (this.currentIndex != this.slidesCount - 1)
+        this.controls.children('a.next').click(function () {
+            self.next();
+        });
+
+    this.controls.children('a.link').removeClass('selected');
+    $(this.controls.children('a.link')[this.currentIndex]).addClass('selected');
 }
 
 Presentation.prototype.currentSlide = function () {
