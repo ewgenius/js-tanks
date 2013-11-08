@@ -39,30 +39,63 @@
     </div>
     <div class="slide" id="slide1">
         <center><h1>Выберите цвет своего танка</h1></center>
-        <ul class="list_horizontal">
-           <li><a href="#"><img src="img/tank_red.png"></a></li>
-           <li><a href="#"><img src="img/tank_green.png"></a></li>
-           <li><a href="#"><img src="img/tank_blue.png"></a></li>
-           <li><a href="#"><img src="img/tank_yellow.png"></a></li>
+        <ul class="colors">
+           <li class="button" data-color="red"><img src="img/tank_red.png"></li>
+           <li class="button" data-color="green"><img src="img/tank_green.png"></li>
+           <li class="button" data-color="blue"><img src="img/tank_blue.png"></li>
+           <li class="button" data-color="yellow"><img src="img/tank_yellow.png"></li>
         </ul>
+        <br>
+        <br>
+        <br>
+        <a class="button next" href="#">Дальше</a>
+        <script>
+            var color;
+            function initialize_1() {
+                $('.colors').children().click(function() {
+                    $('.colors').children().removeClass('selected');
+                    $(this).addClass('selected');
+                    color = $(this).data('color');
+                    $(this).css('border-color', color);
+                });
+                $(this).children('.next').unbind('click');
+                $(this).children('.next').click(function() {
+                    player = new Tank(color);
+                    //player.step0 = function() {
+                      //  player.moveForward(player);
+                    //}
+                    //player.step1 = function() {
+                    //    player.rotate(player, 10);
+                   // }
+                    //player.step2 = function() {
+                    //    player.shoot(player);
+                    //}
+                    presentation.next();
+                });
+            }
+
+            function exit_1() {
+            }
+        </script>
 
     </div>
     <div class="slide" id="slide2">
         <script>
-            var arena;
             function initialize_2() {
-                arena = new Arena($('#slide2 .arena'));
-                $('.description').find('.button').click(function () {
-                    var code = $(this).parent().find('.code').val();
-                    if (code != "")
-                        arena.tanks[0].step = new Function(code);
-                });
-                arena.initialize();
+                if(!arena) {
+                    arena = new Arena($('#slide2 .arena'));
+                    $('.description').find('.button').click(function () {
+                        var code = $(this).parent().find('.code').val();
+                        if (code != "")
+                            player.step0 = new Function(code);
+                    });
+                    arena.initialize();
+                }
                 arena.start();
             }
 
             function exit_2() {
-                arena.exit();
+                arena.stop();
             }
         </script>
         <div class="title">Тестовая арена</div>
@@ -70,9 +103,11 @@
         <div class="description">
             <p>Описание:</p>
             <textarea class="code">
-                {
-                this.moveForward();
-                }
+{
+this.shoot(this);
+this.rotate(this, 10);
+//this.moveForward(this);
+}
             </textarea>
 
             <a class="button" href="#">старт</a>

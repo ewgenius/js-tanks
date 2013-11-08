@@ -18,6 +18,13 @@ var Presentation = function (container) {
         else
             this.slides[i].exit = function () {
             }
+
+        if (window['next_' + i])
+            this.slides[i].exit = window['next_' + i];
+        else
+            this.slides[i].next = function () {
+            }
+
         var a = $('<a href="#" class="link">' + i + '</a>');
         this.controls.children('a.next').before(a);
         a[0].ind = i;
@@ -33,6 +40,7 @@ Presentation.prototype.gotTo = function (index) {
     if (index < 0 || index >= this.slidesCount)
         return;
     var self = this;
+
     if (index != this.currentIndex) {
         this.currentSlide().exit();
         this.currentIndex = index;
@@ -40,6 +48,12 @@ Presentation.prototype.gotTo = function (index) {
         $(this.slides[index]).addClass('current');
         this.currentSlide().initialize();
     }
+
+    this.slides.hide();
+    $(this.currentSlide()).show();
+
+    forceRedraw(this.currentSlide());
+
 
     this.controls.children('a.prev').unbind('click');
     if (this.currentIndex != 0)
@@ -54,7 +68,7 @@ Presentation.prototype.gotTo = function (index) {
         });
 
     this.controls.children('a.link').removeClass('selected');
-    $(this.controls.children('a.link')[this.currentIndex]).addClass('selected');
+    $(this.controls.children('a.link')[this.currentIndex]).addClass('selected');  
 }
 
 Presentation.prototype.currentSlide = function () {
