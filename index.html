@@ -36,11 +36,8 @@
     <div class="slide current" id="slide0">
         <center><h1>Основы программирования<br>на языке JavaScript</h1>
 
-<<<<<<< HEAD
-        <p>Моедлирование искусственного интеллекта<br>на примере игры "Танки"</p></center>
-=======
+
         <p>Моделирование искусственного интеллекта<br>на примере игры "Танки"</p>
->>>>>>> 896f393ce9227315ad5e773abae74522e6b81e4f
     </div>
     <div class="slide" id="slide1">
         <center><h1>Выберите цвет своего танка</h1></center>
@@ -87,7 +84,7 @@
     <div class="slide" id="slide2">
         <script>
             function initialize_2() {
-<<<<<<< HEAD
+
                 if(!arena) {
                     arena = new Arena($('#slide2 .arena'));
                     $('.description').find('.button').click(function () {
@@ -97,23 +94,12 @@
                     });
                     arena.initialize();
                 }
-=======
-                arena = new Arena($('#slide2 .arena'));
-                $('#slide2 .description').find('.button').click(function () {
-                    var code = $(this).parent().find('.code').val();
-                    if (code != "")
-                        arena.tanks[0].step = new Function(code);
-                });
-                arena.initialize();
->>>>>>> 896f393ce9227315ad5e773abae74522e6b81e4f
+
                 arena.start();
             }
 
             function exit_2() {
-<<<<<<< HEAD
                 arena.stop();
-=======
-                //arena.exit();
             }
         </script>
         <div class="title">Тестовая арена</div>
@@ -145,7 +131,6 @@
 
             function exit_3() {
                 //arena.exit();
->>>>>>> 896f393ce9227315ad5e773abae74522e6b81e4f
             }
         </script>
         <div class="title">Тестовая арена</div>
