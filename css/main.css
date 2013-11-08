@@ -66,6 +66,20 @@ h1 {
     color: #666666;
 }
 
+.list_horizontal {
+    width: 200px;
+    display: block;
+    margin: 0px auto;
+}
+
+.list_horizontal li {
+    list-style-type: none;
+    display: block;
+    float: left;
+    margin: 10px;
+}
+
+
 /*
  * A better looking default horizontal rule
  */

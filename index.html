@@ -33,18 +33,25 @@
         <a href="#" class="next">вперед</a>
     </div>
     <div class="slide current" id="slide0">
-        <h1>Основы программирования<br>на языке JavaScript</h1>
+        <center><h1>Основы программирования<br>на языке JavaScript</h1>
 
-        <p>Моедлирование искусственного интеллекта<br>на примере игры "Танки"</p>
+        <p>Моедлирование искусственного интеллекта<br>на примере игры "Танки"</p></center>
     </div>
     <div class="slide" id="slide1">
-        <h1>Слайд 1</h1>
+        <center><h1>Выберите цвет своего танка</h1></center>
+        <ul class="list_horizontal">
+           <li><a href="#"><img src="img/tank_red.png"></a></li>
+           <li><a href="#"><img src="img/tank_green.png"></a></li>
+           <li><a href="#"><img src="img/tank_blue.png"></a></li>
+           <li><a href="#"><img src="img/tank_yellow.png"></a></li>
+        </ul>
+
     </div>
     <div class="slide" id="slide2">
         <script>
             var arena;
             function initialize_2() {
-                arena = new Arena($('#slide0 .arena'));
+                arena = new Arena($('#slide2 .arena'));
                 $('.description').find('.button').click(function () {
                     var code = $(this).parent().find('.code').val();
                     if (code != "")
