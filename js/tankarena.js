@@ -22,18 +22,31 @@ Arena.prototype.initialize = function () {
     this.grid = grid;
 
 
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 0; i++) {
         var t = new Tank('red');
         t.sprite.position.x = 10 + 20 * ( Math.floor(Math.random() * (20 - 1 + 1)) + 1);
         t.sprite.position.y = 10 + 20 * ( Math.floor(Math.random() * (20 - 1 + 1)) + 1);
         t.rotate(t, Math.random() * 360);
+
+        t.step0 = function() {
+            this.moveForward(this);
+        }
+        t.step1 = function() {
+            this.rotate(this, 10);
+        }
+        t.step2 = function() {
+            this.shoot(this);
+        }
+
         tanks.push(t);
+
+
     }
 
     if(!player)
         player = new Tank('green');
-    player.sprite.position.x = 100;
-    player.sprite.position.y = 100;
+    player.sprite.position.x = 250;
+    player.sprite.position.y = 250;
     tanks.push(player);
 
     for (var i = 0; i < tanks.length; i++)
@@ -45,14 +58,22 @@ Arena.prototype.initialize = function () {
     this.animate = function() {
         requestAnimFrame(self.animate);
         renderer.render(stage);
-        for(var i = 0; i < missiles.length; i++)
+        for(var i = missiles.length - 1; i >= 0; i--) {
             missiles[i].move();
-
-        for(var i = missiles.length - 1; i >= 0; i--)
+            missiles[i].update();
             if(!missiles[i].active) {
                 arena.stage.removeChild(missiles[i].sprite);
                 missiles.splice(i, 1);
             }
+        }
+
+        for(var i = tanks.length - 1; i >= 0; i--) {
+            tanks[i].update();
+            if(!tanks[i].active) {
+                arena.stage.removeChild(tanks[i].sprite);
+                tanks.splice(i, 1);
+            }
+        }
     }
 
     this.logic = 0;
@@ -112,7 +133,7 @@ var Missile = function () {
     this.dx = 0;
     this.dy = 0;
     this.speed = 2;
-    this.life = 1000;
+    this.lives = 1000;
     this.active = true;
 }
 
@@ -120,29 +141,50 @@ Missile.prototype.move = function() {
     if(this.active) {
         this.sprite.position.x += this.dx * this.speed;
         this.sprite.position.y += this.dy * this.speed;
-        this.life--;
-        if(this.life <= 0){
-            //arena.missiles.pop(this);
+        this.lives--;
+        if(this.lives <= 0)
             this.active = false;
+    }
+}
+
+Missile.prototype.update = function() {
+    for(var i = 0; i < arena.tanks.length; i++) {
+        var t = arena.tanks[i];
+        if(Math.abs(t.sprite.position.x - this.sprite.position.x) < 7 && Math.abs(t.sprite.position.y - this.sprite.position.y) < 7) {
+            this.lives = 0;
+            t.lives -= 10;
+            t.speed = 0;
         }
     }
 }
 
 var Tank = function (color) {
+    this.name = "tank";
     this.texture = new PIXI.Texture.fromImage('img/tank_' + color + '.png');
     this.sprite = new PIXI.Sprite(this.texture);
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
-    this.speed = 10;
+    this.speed = 2;
     this.direction = 0;
     this.actions = [];
     this.stepCounter = 0;
     this.steps = 10;
+    this.lives = 100;
+    this.active = true;
+}
+
+Tank.prototype.update = function() {
+    if(this.lives <= 0)
+        this.active = false;
 }
 
 Tank.prototype.moveForward = function (self) {
-    self.sprite.position.x += self.speed * Math.sin(self.direction);
-    self.sprite.position.y -= self.speed * Math.cos(self.direction);
+    var dx = self.speed * Math.sin(self.direction);
+    var dy = -self.speed * Math.cos(self.direction);
+    if((self.sprite.position.x + dx > 0) && (self.sprite.position.x + dx < arena.container.width()))
+        self.sprite.position.x += dx;
+    if((self.sprite.position.y + dy > 0) && (self.sprite.position.y + dy < arena.container.height()))
+        self.sprite.position.y += dy;
 }
 
 Tank.prototype.rotate = function (self, angle) {
@@ -158,8 +200,8 @@ Tank.prototype.shoot = function (self) {
     var m = new Missile();
     m.dx = Math.sin(self.direction);
     m.dy = -Math.cos(self.direction);
-    m.sprite.position.x = self.sprite.position.x + 4 * m.dx;
-    m.sprite.position.y = self.sprite.position.y + 4 * m.dy;
+    m.sprite.position.x = self.sprite.position.x + 10 * m.dx;
+    m.sprite.position.y = self.sprite.position.y + 10 * m.dy;
     m.sprite.rotation = self.sprite.rotation;
     m.dx = Math.sin(self.direction);
     m.dy = -Math.cos(self.direction);
@@ -169,79 +211,81 @@ Tank.prototype.shoot = function (self) {
 
 Tank.prototype.step = function () {
     var plused = false;
-    switch(this.stepCounter) {
-        case 0:
-            if(this.step0) {
-                this.step0();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 1:
-            if(this.step1) {
-                this.step1();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 2:
-            if(this.step2) {
-                this.step2();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 3:
-            if(this.step3) {
-                this.step3();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 4:
-            if(this.step4) {
-                this.step4();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 5:
-            if(this.step5) {
-                this.step5();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 6:
-            if(this.step6) {
-                this.step6();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 7:
-            if(this.step7) {
-                this.step7();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 8:
-            if(this.step8) {
-                this.step8();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
-        case 9:
-            if(this.step9) {
-                this.step9();
-                break;
-            } else
-                this.stepCounter++;
-                plused = true;
+    if(this.active) {
+        switch(this.stepCounter) {
+            case 0:
+                if(this.step0) {
+                    this.step0();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 1:
+                if(this.step1) {
+                    this.step1();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 2:
+                if(this.step2) {
+                    this.step2();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 3:
+                if(this.step3) {
+                    this.step3();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 4:
+                if(this.step4) {
+                    this.step4();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 5:
+                if(this.step5) {
+                    this.step5();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 6:
+                if(this.step6) {
+                    this.step6();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 7:
+                if(this.step7) {
+                    this.step7();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 8:
+                if(this.step8) {
+                    this.step8();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+            case 9:
+                if(this.step9) {
+                    this.step9();
+                    break;
+                } else
+                    this.stepCounter++;
+                    plused = true;
+        }
+        if(!plused)
+            this.stepCounter += 1;
+        this.stepCounter %= this.steps;
     }
-    if(!plused)
-        this.stepCounter += 1;
-    this.stepCounter %= this.steps;
 }

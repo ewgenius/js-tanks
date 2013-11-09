@@ -144,7 +144,7 @@ body {
 }
 
 .slide {
-    /*display: none;*/
+    display: none;
     width: 96%;
     height: 96%;
     padding: 2%;
@@ -157,17 +157,29 @@ body {
     margin-bottom: 15px;
 }
 
-.slide .arena {
+.arena {
+    margin-top: 50px;
+    margin-left: -200px;
+    margin-right: 20px;
     width: 500px;
     height: 500px;
     float: left;
     border: 1px solid #000000;
 }
 
+.slide.right {
+    float: right;
+    width: 550px;
+}
+
 .description {
-    width: 480px;
+    width: 500px;
     padding: 0px 10px;
     float: left;
+}
+
+.description.wide {
+    width: 600px;
 }
 
 .code {
@@ -192,6 +204,10 @@ body {
     background: #444444;
     border: 0px solid #666666;
     cursor: pointer;
+}
+
+.button:hover {
+    background: #555555;
 }
 
 .button.next {

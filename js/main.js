@@ -17,4 +17,5 @@ var forceRedraw = function(element){
 
 $(document).ready(function () {
     presentation = new Presentation($('#presentation'));
+    $('.arena').hide();
 })
